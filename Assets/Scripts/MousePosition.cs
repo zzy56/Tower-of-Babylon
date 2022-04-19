@@ -10,11 +10,13 @@ public class MousePosition : MonoBehaviour
     public GameObject currentInstance;
     public GridManager gdManager;
     public bool canBuild = false;
+    public bool inBound = false;
+    Vector3 size;
 
     private Camera cam;
     private TileManager tileManager;
 
-
+    public enum Direction { up, left, down, right }
     
     // Start is called before the first frame update
     void Awake()
@@ -23,12 +25,14 @@ public class MousePosition : MonoBehaviour
         tileManager = gameObject.GetComponent<TileManager>();
         currentTileType = tileManager.allTileTypes[0];
         currentInstance = currentTileType.obj;
+        size = currentTileType.dimension;
+        //Direction dir = Direction.up;
     }
 
     // Update is called once per frame
     void Update()
     {
-        UpdateControlCube();
+        inBound = UpdateControlCube();
 
         if (Input.GetKeyDown(KeyCode.Tab))
         {
@@ -41,19 +45,53 @@ public class MousePosition : MonoBehaviour
         }
 
 
-        if (Input.GetMouseButtonDown(0) && canBuild)
+        if (Input.GetMouseButtonDown(0) && inBound)
         {
             PlaceTile(tileManager.currentIndex);
+            Debug.Log(canBuild);
         }
     }
 
     void PlaceTile(int index)
     {
-        Vector3 size = currentTileType.dimension;
-        Vector3 pos = new Vector3(controlCube.transform.position.x, controlCube.transform.position.y, controlCube.transform.position.z);
-        Instantiate(currentInstance, pos, Quaternion.Euler(0, 0, 0));
-        Vector3 GridPos = gdManager.GetGridPostion(pos);
-        gdManager.grid.SetText(1, currentTileType.TileName, Mathf.RoundToInt(GridPos.x), Mathf.RoundToInt(GridPos.y), Mathf.RoundToInt(GridPos.z));
+        
+        Vector3 pos = controlCube.transform.position;
+        Vector3 gridPos = gdManager.GetGridPostion(pos);
+        List<Vector3> gridPosList = new List<Vector3>();
+        for (int x=0; x< size.x; x++)
+        {
+            for (int y = 0; y < size.y; y++)
+            {
+                for (int z = 0; z < size.z; z++)
+                {
+                    gridPosList.Add(gridPos + new Vector3(x, y, z));
+                }
+            }
+        }
+
+        canBuild = true;
+        foreach(Vector3 gPos in gridPosList)
+        {
+            if(gdManager.grid.GetText(gPos) != 0)
+            {
+                canBuild = false;
+            }
+        }
+
+        if(canBuild)
+        {
+            Instantiate(currentInstance, pos, Quaternion.Euler(0, 0, 0));
+            for (int x = 0; x < size.x; x++)
+            {
+                for (int y = 0; y < size.y; y++)
+                {
+                    for (int z = 0; z < size.z; z++)
+                    {
+                        gdManager.grid.SetText(1, gridPos + new Vector3(x, y, z));
+                    }
+                }
+            }
+        }
     }
 
     void SwitchCurrentTile()
@@ -61,33 +99,33 @@ public class MousePosition : MonoBehaviour
         tileManager.currentIndex = (tileManager.currentIndex + 1) % tileManager.allTileTypes.Length;
         currentTileType = tileManager.allTileTypes[tileManager.currentIndex];
         currentInstance = currentTileType.obj;
+        size = currentTileType.dimension;
         //controlCube.transform.localScale = currentTileType.dimension;
     }
 
-    void UpdateControlCube()
+    bool UpdateControlCube()
     {
         //Debug.Log("This hit at " + hit.point);
         Vector3 MouseHit = MouseHitWorldPosition();
-        if (MouseHit != new Vector3(0,0,0))
+        if (MouseHit != new Vector3(0, 0, 0))
         {
             Vector3 GridPos = gdManager.GetGridPostion(MouseHit);
-            controlCube.transform.position = GridPos * gdManager.grid.GetCellSize();
-            canBuild = true;
+            controlCube.transform.position = GridPos * gdManager.cellSize + new Vector3(gdManager.cellSize, gdManager.cellSize, gdManager.cellSize) / 2;
+            return true;
         }
         else
         {
-            canBuild = false;
+            return false;
         }
-        
-        
-        //new Vector3(Mathf.Round(hit.point.x) - 0.5f + (currentTileType.dimension.x * 0.5f),Mathf.Round(hit.point.y) - 0.5f + (currentTileType.dimension.y * 0.5f),Mathf.Round(hit.point.z) - 0.5f + (currentTileType.dimension.z * 0.5f));
+
+
+        Vector3 MouseHitWorldPosition()
+        {
+            Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            Physics.Raycast(ray, out hit);
+            return new Vector3(hit.point.x, hit.point.y, hit.point.z);
+        }
     }
 
-    Vector3 MouseHitWorldPosition()
-    {
-        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        Physics.Raycast(ray, out hit);
-        return new Vector3(hit.point.x, hit.point.y, hit.point.z);
-    }
 }

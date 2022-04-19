@@ -9,21 +9,20 @@ public class GridManager : MonoBehaviour
     [SerializeField]
     Vector3Int dimension;
 
-    [SerializeField]
-    float cellSize;
+    public float cellSize = 5f;
 
     [SerializeField]
     GameObject floorObj;
     // Start is called before the first frame update
     void Start()
     {
-        grid = new Grid(dimension.x, dimension.y, dimension.z, 5f);
+        grid = new Grid(dimension.x, dimension.y, dimension.z, cellSize);
         PlaceFloor();
     }
 
     void PlaceFloor()
     {
-        GameObject floor = Instantiate(floorObj, GetWorldPosition(0, 0, 0, grid.GetCellSize()), Quaternion.identity);
+        GameObject floor = Instantiate(floorObj, GetWorldPosition(0, 0, 0, cellSize), Quaternion.identity);
         //floor.transform.localScale = new Vector3(dimension.x*cellSize, 1, dimension.z*cellSize);
     }
 

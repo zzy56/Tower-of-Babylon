@@ -45,17 +45,16 @@ public class Grid
         return pos;
     }
 
-    public float GetCellSize()
+    public void SetText(int value, Vector3 gridPosition)
     {
-        return cellSize;
+        cells[Mathf.RoundToInt(gridPosition.x), Mathf.RoundToInt(gridPosition.y), Mathf.RoundToInt(gridPosition.z)] = value;
+        texts[Mathf.RoundToInt(gridPosition.x), Mathf.RoundToInt(gridPosition.y), Mathf.RoundToInt(gridPosition.z)].text = value.ToString();
     }
 
-    public void SetText(int value, string text, int x, int y, int z)
+    public int GetText(Vector3 gridPosition)
     {
-        cells[x, y, z] = value;
-        texts[x, y, z].text = text;
+        return cells[Mathf.RoundToInt(gridPosition.x), Mathf.RoundToInt(gridPosition.y), Mathf.RoundToInt(gridPosition.z)];
     }
-
 
 }
 
