@@ -9,10 +9,10 @@ public class MousePosition : MonoBehaviour
     public TileType currentTileType;
     public GameObject currentInstance;
     public GridManager gdManager;
+    public bool canBuild = false;
 
     private Camera cam;
     private TileManager tileManager;
-    private int rotation;
 
 
     
@@ -37,13 +37,11 @@ public class MousePosition : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.R))
         {
-            rotation += 1;
-            rotation %= 4;
-            Debug.Log(rotation);
+            //rotate obj by 90 degrees;
         }
 
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && canBuild)
         {
             PlaceTile(tileManager.currentIndex);
         }
@@ -52,11 +50,10 @@ public class MousePosition : MonoBehaviour
     void PlaceTile(int index)
     {
         Vector3 size = currentTileType.dimension;
-        currentInstance = Instantiate(currentInstance, new Vector3(controlCube.transform.position.x,
-                                            controlCube.transform.position.y,
-                                            controlCube.transform.position.z), Quaternion.Euler(0, -rotation*90, 0));
-        //currentInstance.GetComponent<MeshRenderer>().material = currentTileType.mat;
-        Debug.Log(controlCube.transform.position);
+        Vector3 pos = new Vector3(controlCube.transform.position.x, controlCube.transform.position.y, controlCube.transform.position.z);
+        Instantiate(currentInstance, pos, Quaternion.Euler(0, 0, 0));
+        Vector3 GridPos = gdManager.GetGridPostion(pos);
+        gdManager.grid.SetText(1, currentTileType.TileName, Mathf.RoundToInt(GridPos.x), Mathf.RoundToInt(GridPos.y), Mathf.RoundToInt(GridPos.z));
     }
 
     void SwitchCurrentTile()
@@ -71,8 +68,17 @@ public class MousePosition : MonoBehaviour
     {
         //Debug.Log("This hit at " + hit.point);
         Vector3 MouseHit = MouseHitWorldPosition();
-        Vector3 GridPos = gdManager.GetGridPostion(MouseHit);
-        controlCube.transform.position = GridPos * gdManager.grid.GetCellSize();
+        if (MouseHit != new Vector3(0,0,0))
+        {
+            Vector3 GridPos = gdManager.GetGridPostion(MouseHit);
+            controlCube.transform.position = GridPos * gdManager.grid.GetCellSize();
+            canBuild = true;
+        }
+        else
+        {
+            canBuild = false;
+        }
+        
         
         //new Vector3(Mathf.Round(hit.point.x) - 0.5f + (currentTileType.dimension.x * 0.5f),Mathf.Round(hit.point.y) - 0.5f + (currentTileType.dimension.y * 0.5f),Mathf.Round(hit.point.z) - 0.5f + (currentTileType.dimension.z * 0.5f));
     }

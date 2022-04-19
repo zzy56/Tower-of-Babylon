@@ -207,6 +207,7 @@ MonoBehaviour:
     obj: {fileID: 0}
   currentInstance: {fileID: 2489086152063153494, guid: 76f4bbd635fc3447f8f421f5f3852ec9, type: 3}
   gdManager: {fileID: 1593078837}
+  canBuild: 0
 --- !u!114 &378409582
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,18 +225,10 @@ MonoBehaviour:
     mat: {fileID: 2100000, guid: 7fcb0affe9a424f0b9e7860313decc87, type: 2}
     dimension: {x: 5, y: 5, z: 5}
     obj: {fileID: 2094917822451533592, guid: 32d91bd96b04c45b296baf84a658a273, type: 3}
-  - TileName: BigCube
+  - TileName: 5x5x10Cube
     mat: {fileID: 2100000, guid: 7fcb0affe9a424f0b9e7860313decc87, type: 2}
-    dimension: {x: 2, y: 2, z: 2}
-    obj: {fileID: 2489086152063153494, guid: 76f4bbd635fc3447f8f421f5f3852ec9, type: 3}
-  - TileName: SmallTile
-    mat: {fileID: 2100000, guid: 89f293dd1147b4d27baa69fc7214cf22, type: 2}
-    dimension: {x: 1, y: 1, z: 1}
-    obj: {fileID: 2335804538802520114, guid: 87f7909ff164946bfba6bad00e1191b7, type: 3}
-  - TileName: Staris
-    mat: {fileID: 2100000, guid: 409ed3d92d6724e7fae4c40d0a33910a, type: 2}
-    dimension: {x: 1, y: 1, z: 1}
-    obj: {fileID: 8517736510794033916, guid: f6991f33449f94a3d86d92329b09d295, type: 3}
+    dimension: {x: 5, y: 5, z: 10}
+    obj: {fileID: 4100927997640503304, guid: 27e42b007827b41b5841d3d9217c4e13, type: 3}
   currentIndex: 0
 --- !u!1 &426335069
 GameObject:
@@ -905,3 +898,60 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2128330547}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &3924416053611732064
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1793120319241021122, guid: 27e42b007827b41b5841d3d9217c4e13, type: 3}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1793120319241021122, guid: 27e42b007827b41b5841d3d9217c4e13, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 1793120319241021122, guid: 27e42b007827b41b5841d3d9217c4e13, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1793120319241021122, guid: 27e42b007827b41b5841d3d9217c4e13, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1793120319241021122, guid: 27e42b007827b41b5841d3d9217c4e13, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1793120319241021122, guid: 27e42b007827b41b5841d3d9217c4e13, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1793120319241021122, guid: 27e42b007827b41b5841d3d9217c4e13, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1793120319241021122, guid: 27e42b007827b41b5841d3d9217c4e13, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1793120319241021122, guid: 27e42b007827b41b5841d3d9217c4e13, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1793120319241021122, guid: 27e42b007827b41b5841d3d9217c4e13, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1793120319241021122, guid: 27e42b007827b41b5841d3d9217c4e13, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4100927997640503304, guid: 27e42b007827b41b5841d3d9217c4e13, type: 3}
+      propertyPath: m_Name
+      value: 5x10Cube
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 27e42b007827b41b5841d3d9217c4e13, type: 3}

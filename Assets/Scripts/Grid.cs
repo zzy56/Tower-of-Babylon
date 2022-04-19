@@ -32,8 +32,8 @@ public class Grid
                     gb.transform.GetComponent<TextMesh>().text = cells[x, y, z].ToString();
                     texts[x, y, z] = gb.transform.GetComponent<TextMesh>();
                     texts[x, y, z].color = Color.black;
-                    texts[x, y, z].fontSize = 15;
-                    SetText(100 * x + 10 * y + z, x, y, z);
+                    texts[x, y, z].fontSize = 8;
+                    texts[x, y, z].alignment = TextAlignment.Center;
                 }
             }
         }
@@ -50,10 +50,10 @@ public class Grid
         return cellSize;
     }
 
-    public void SetText(int value, int x, int y, int z)
+    public void SetText(int value, string text, int x, int y, int z)
     {
         cells[x, y, z] = value;
-        texts[x, y, z].text = cells[x, y, z].ToString();
+        texts[x, y, z].text = text;
     }
 
 

@@ -18,7 +18,6 @@ public class GridManager : MonoBehaviour
     void Start()
     {
         grid = new Grid(dimension.x, dimension.y, dimension.z, 5f);
-        grid.SetText(5, 1, 1, 1);
         PlaceFloor();
     }
 
@@ -40,4 +39,5 @@ public class GridManager : MonoBehaviour
                               Mathf.FloorToInt(worldPosition.y / cellSize),
                               Mathf.FloorToInt(worldPosition.z / cellSize));
     }
+
 }
