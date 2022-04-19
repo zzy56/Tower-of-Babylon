@@ -31,12 +31,12 @@ public class CameraManager : MonoBehaviour
     float frameRotate;
     float frameZoom;
     Camera cam;
-    Light lamp;
+    //Light lamp;
 
     private void Awake()
     {
         cam = GetComponentInChildren<Camera>();
-        lamp = GetComponentInChildren<Light>();
+        //lamp = GetComponentInChildren<Light>();
         cam.transform.localPosition = new Vector3(0f, Mathf.Abs(cameraOffset.y), -Mathf.Abs(cameraOffset.x));
         zoomStrategy = new OrthographicZoomStrategy(cam, startingZoom);
         cam.transform.LookAt(transform.position + Vector3.up * lookAtOffset);
@@ -90,13 +90,13 @@ public class CameraManager : MonoBehaviour
         if (frameZoom < 0f)
         {
             zoomStrategy.ZoomIn(cam, Time.deltaTime * Mathf.Abs(frameZoom) * zoomSpeed, nearZoomLimit);
-            lamp.spotAngle += frameZoom * lightZoomFactor;
+            //lamp.spotAngle += frameZoom * lightZoomFactor;
             frameZoom = 0;
         }
         else if (frameZoom > 0f)
         {
             zoomStrategy.ZoomOut(cam, Time.deltaTime * frameZoom * zoomSpeed, farZoomLimit);
-            lamp.spotAngle += frameZoom * lightZoomFactor;
+            //lamp.spotAngle += frameZoom * lightZoomFactor;
             frameZoom = 0;
         }
     }
@@ -109,5 +109,20 @@ public class CameraManager : MonoBehaviour
             Mathf.Clamp(transform.position.z, minBounds.y, maxBounds.y)
             );
             
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawLine(new Vector3(minBounds.x, transform.position.y, minBounds.y),
+                        new Vector3(maxBounds.x, transform.position.y, minBounds.y));
+
+        Gizmos.DrawLine(new Vector3(minBounds.x, transform.position.y, minBounds.y),
+                        new Vector3(minBounds.x, transform.position.y, maxBounds.y));
+
+        Gizmos.DrawLine(new Vector3(maxBounds.x, transform.position.y, maxBounds.y),
+                        new Vector3(minBounds.x, transform.position.y, maxBounds.y));
+
+        Gizmos.DrawLine(new Vector3(maxBounds.x, transform.position.y, maxBounds.y),
+                        new Vector3(maxBounds.x, transform.position.y, minBounds.y));
     }
 }

@@ -8,10 +8,14 @@ public class MousePosition : MonoBehaviour
     public GameObject controlCube;
     public TileType currentTileType;
     public GameObject currentInstance;
+    public GridManager gdManager;
 
     private Camera cam;
     private TileManager tileManager;
     private int rotation;
+
+
+    
     // Start is called before the first frame update
     void Awake()
     {
@@ -51,7 +55,7 @@ public class MousePosition : MonoBehaviour
         currentInstance = Instantiate(currentInstance, new Vector3(controlCube.transform.position.x,
                                             controlCube.transform.position.y,
                                             controlCube.transform.position.z), Quaternion.Euler(0, -rotation*90, 0));
-        currentInstance.GetComponent<MeshRenderer>().material = currentTileType.mat;
+        //currentInstance.GetComponent<MeshRenderer>().material = currentTileType.mat;
         Debug.Log(controlCube.transform.position);
     }
 
@@ -65,13 +69,19 @@ public class MousePosition : MonoBehaviour
 
     void UpdateControlCube()
     {
+        //Debug.Log("This hit at " + hit.point);
+        Vector3 MouseHit = MouseHitWorldPosition();
+        Vector3 GridPos = gdManager.GetGridPostion(MouseHit);
+        controlCube.transform.position = GridPos * gdManager.grid.GetCellSize();
+        
+        //new Vector3(Mathf.Round(hit.point.x) - 0.5f + (currentTileType.dimension.x * 0.5f),Mathf.Round(hit.point.y) - 0.5f + (currentTileType.dimension.y * 0.5f),Mathf.Round(hit.point.z) - 0.5f + (currentTileType.dimension.z * 0.5f));
+    }
+
+    Vector3 MouseHitWorldPosition()
+    {
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         Physics.Raycast(ray, out hit);
-        //Debug.Log("This hit at " + hit.point);
-        Vector3 unitPos = new Vector3(Mathf.Round(hit.point.x), Mathf.Round(hit.point.y), Mathf.Round(hit.point.z));
-        controlCube.transform.position = unitPos;
-
-        //new Vector3(Mathf.Round(hit.point.x) - 0.5f + (currentTileType.dimension.x * 0.5f),Mathf.Round(hit.point.y) - 0.5f + (currentTileType.dimension.y * 0.5f),Mathf.Round(hit.point.z) - 0.5f + (currentTileType.dimension.z * 0.5f));
+        return new Vector3(hit.point.x, hit.point.y, hit.point.z);
     }
 }
