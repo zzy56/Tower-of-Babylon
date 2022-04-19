@@ -11,12 +11,13 @@ public class MousePosition : MonoBehaviour
     public GridManager gdManager;
     public bool canBuild = false;
     public bool inBound = false;
-    Vector3 size;
 
+    int rotation = 0;
+    Vector3 size;
     private Camera cam;
     private TileManager tileManager;
 
-    public enum Direction { up, left, down, right }
+    
     
     // Start is called before the first frame update
     void Awake()
@@ -26,7 +27,6 @@ public class MousePosition : MonoBehaviour
         currentTileType = tileManager.allTileTypes[0];
         currentInstance = currentTileType.obj;
         size = currentTileType.dimension;
-        //Direction dir = Direction.up;
     }
 
     // Update is called once per frame
@@ -41,6 +41,9 @@ public class MousePosition : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.R))
         {
+            rotation += 1;
+            rotation %= 4;
+            Debug.Log(rotation);
             //rotate obj by 90 degrees;
         }
 
@@ -58,13 +61,14 @@ public class MousePosition : MonoBehaviour
         Vector3 pos = controlCube.transform.position;
         Vector3 gridPos = gdManager.GetGridPostion(pos);
         List<Vector3> gridPosList = new List<Vector3>();
+        //Vector3 rotationVector = RotateClockWise(rotation, size);
         for (int x=0; x< size.x; x++)
         {
             for (int y = 0; y < size.y; y++)
             {
                 for (int z = 0; z < size.z; z++)
                 {
-                    gridPosList.Add(gridPos + new Vector3(x, y, z));
+                    gridPosList.Add(gridPos + Direction(rotation, new Vector3Int(x, y, z)));
                 }
             }
         }
@@ -84,7 +88,7 @@ public class MousePosition : MonoBehaviour
 
         if(canBuild)
         {
-            Instantiate(currentInstance, pos, Quaternion.Euler(0, 0, 0));
+            Instantiate(currentInstance, pos, Quaternion.Euler(0, rotation*90, 0));
             foreach(Vector3 gPos in gridPosList)
             {
                 gdManager.grid.SetText(1, gPos);
@@ -117,13 +121,35 @@ public class MousePosition : MonoBehaviour
             return false;
         }
 
+    }
 
-        Vector3 MouseHitWorldPosition()
+    Vector3 MouseHitWorldPosition()
+    {
+        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        Physics.Raycast(ray, out hit);
+        return new Vector3(hit.point.x, hit.point.y, hit.point.z);
+    }
+
+    Vector3 Direction(int direction, Vector3Int size)
+    {
+        int x = size.x;
+        int y = size.y;
+        int z = size.z;
+
+        switch (direction)
         {
-            Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            Physics.Raycast(ray, out hit);
-            return new Vector3(hit.point.x, hit.point.y, hit.point.z);
+            case 0:
+                return (new Vector3(x, y, z));
+            case 1:
+                return (new Vector3(z, y, x));
+            case 2:
+                return (new Vector3(x, y, -z));
+            case 3:
+                return (new Vector3(-z, y, x));
+            default:
+                return (size);
+
         }
     }
 
