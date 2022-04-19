@@ -6,8 +6,7 @@ public class GridManager : MonoBehaviour
 {
     internal Grid grid;
 
-    [SerializeField]
-    Vector3Int dimension;
+    public Vector3Int dimension;
 
     public float cellSize = 5f;
 
@@ -16,7 +15,7 @@ public class GridManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        grid = new Grid(dimension.x, dimension.y, dimension.z, cellSize);
+        grid = new Grid(dimension, cellSize);
         PlaceFloor();
     }
 

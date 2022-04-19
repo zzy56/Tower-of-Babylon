@@ -72,26 +72,25 @@ public class MousePosition : MonoBehaviour
         canBuild = true;
         foreach(Vector3 gPos in gridPosList)
         {
-            if(gdManager.grid.GetText(gPos) != 0)
+
+            if (gdManager.grid.GetValueOfCell(gPos) != 0)
             {
                 canBuild = false;
+                Debug.Log("invaild position");
             }
+
+
         }
 
         if(canBuild)
         {
             Instantiate(currentInstance, pos, Quaternion.Euler(0, 0, 0));
-            for (int x = 0; x < size.x; x++)
+            foreach(Vector3 gPos in gridPosList)
             {
-                for (int y = 0; y < size.y; y++)
-                {
-                    for (int z = 0; z < size.z; z++)
-                    {
-                        gdManager.grid.SetText(1, gridPos + new Vector3(x, y, z));
-                    }
-                }
+                gdManager.grid.SetText(1, gPos);
             }
         }
+        Debug.Log(gdManager.dimension);
     }
 
     void SwitchCurrentTile()
