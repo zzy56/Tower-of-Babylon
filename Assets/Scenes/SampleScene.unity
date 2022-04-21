@@ -177,11 +177,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraOffset: {x: 100, y: 45}
   lookAtOffset: 0
-  inOutSpeed: 15
-  lateralSpeed: 8
+  inOutSpeed: 30
+  lateralSpeed: 30
   rotateSpeed: 100
-  minBounds: {x: -20, y: -20}
-  maxBounds: {x: 33.83, y: 30.9}
+  minBounds: {x: 0, y: -6}
+  maxBounds: {x: 34, y: 26}
   zoomSpeed: 10
   nearZoomLimit: 10
   farZoomLimit: 55
@@ -234,6 +234,10 @@ MonoBehaviour:
     mat: {fileID: 2100000, guid: 7fcb0affe9a424f0b9e7860313decc87, type: 2}
     dimension: {x: 2, y: 2, z: 2}
     obj: {fileID: 7808808450620216343, guid: 57f00156cbc8940c4b9bd5fdc650397c, type: 3}
+  - TileName: Road1
+    mat: {fileID: 2100000, guid: 7fcb0affe9a424f0b9e7860313decc87, type: 2}
+    dimension: {x: 1, y: 1, z: 1}
+    obj: {fileID: 3164884611175961504, guid: b5d45b719c685461fa330585c205b419, type: 3}
   currentIndex: 0
 --- !u!1 &426335069
 GameObject:
