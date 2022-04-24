@@ -226,18 +226,6 @@ MonoBehaviour:
     mat: {fileID: 2100000, guid: 7fcb0affe9a424f0b9e7860313decc87, type: 2}
     dimension: {x: 1, y: 1, z: 1}
     obj: {fileID: 2094917822451533592, guid: 32d91bd96b04c45b296baf84a658a273, type: 3}
-  - TileName: 5x5x10Cube
-    mat: {fileID: 2100000, guid: 7fcb0affe9a424f0b9e7860313decc87, type: 2}
-    dimension: {x: 1, y: 1, z: 2}
-    obj: {fileID: 4100927997640503304, guid: 27e42b007827b41b5841d3d9217c4e13, type: 3}
-  - TileName: 10x10Cube
-    mat: {fileID: 2100000, guid: 7fcb0affe9a424f0b9e7860313decc87, type: 2}
-    dimension: {x: 2, y: 2, z: 2}
-    obj: {fileID: 7808808450620216343, guid: 57f00156cbc8940c4b9bd5fdc650397c, type: 3}
-  - TileName: Road1
-    mat: {fileID: 2100000, guid: 7fcb0affe9a424f0b9e7860313decc87, type: 2}
-    dimension: {x: 1, y: 1, z: 1}
-    obj: {fileID: 3164884611175961504, guid: b5d45b719c685461fa330585c205b419, type: 3}
   currentIndex: 0
 --- !u!1 &426335069
 GameObject:
