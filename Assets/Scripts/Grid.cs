@@ -8,7 +8,7 @@ public class Grid
     int ySize;
     int zSize;
     float cellSize;
-    int[,,] cells;
+    Block[,,] cells;
     TextMesh[,,] texts;
 
     public Grid(Vector3Int dimension, float cellSize)
@@ -18,7 +18,7 @@ public class Grid
         this.zSize = dimension.z;
         this.cellSize = cellSize;
 
-        cells = new int[xSize, ySize, zSize];
+        cells = new Block[xSize, ySize, zSize];
         texts = new TextMesh[xSize, ySize, zSize];
 
         for (int x = 0; x < xSize; x++)
@@ -29,7 +29,7 @@ public class Grid
                 {
                     GameObject gb = new GameObject("gb", typeof(TextMesh));
                     gb.transform.localPosition = GetWorldPosition(x, y, z, cellSize)+new Vector3(cellSize/2, cellSize/2, cellSize/2);
-                    gb.transform.GetComponent<TextMesh>().text = cells[x, y, z].ToString();
+                    gb.transform.GetComponent<TextMesh>().text = " ";
                     texts[x, y, z] = gb.transform.GetComponent<TextMesh>();
                     texts[x, y, z].color = Color.black;
                     texts[x, y, z].fontSize = 8;
@@ -45,22 +45,36 @@ public class Grid
         return pos;
     }
 
-    public void SetText(int value, Vector3 gridPosition)
+    public void SetText(bool value, Vector3 gridPosition)
     {
-        cells[Mathf.RoundToInt(gridPosition.x), Mathf.RoundToInt(gridPosition.y), Mathf.RoundToInt(gridPosition.z)] = value;
+        cells[Mathf.RoundToInt(gridPosition.x), Mathf.RoundToInt(gridPosition.y), Mathf.RoundToInt(gridPosition.z)].isOccupied = value;
         texts[Mathf.RoundToInt(gridPosition.x), Mathf.RoundToInt(gridPosition.y), Mathf.RoundToInt(gridPosition.z)].text = value.ToString();
     }
 
-    public int GetValueOfCell(Vector3 gridPosition)
+    public bool isCellOccupied(Vector3 gridPosition)
     {
         if(gridPosition.x < 0 || gridPosition.x > xSize-1 ||
            gridPosition.y < 0 || gridPosition.y > ySize-1 ||
            gridPosition.z < 0 || gridPosition.z > zSize-1)
         {
-            return 1;
+            return true; //if outside bound default return is 1
         }
-        return cells[Mathf.RoundToInt(gridPosition.x), Mathf.RoundToInt(gridPosition.y), Mathf.RoundToInt(gridPosition.z)];
+        return cells[Mathf.RoundToInt(gridPosition.x), Mathf.RoundToInt(gridPosition.y), Mathf.RoundToInt(gridPosition.z)].isOccupied;
+        // return whether or not the cell is occupied
     }
 
+}
+
+enum BlockTypes
+{
+    Road,
+    Stucture
+}
+
+struct Block
+{
+    public BlockTypes blockType;
+    public bool isOccupied;
+    public bool isAccessable;
 }
 

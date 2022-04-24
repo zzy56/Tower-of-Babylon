@@ -7,9 +7,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 122425054680796912, guid: 32d91bd96b04c45b296baf84a658a273, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 409ed3d92d6724e7fae4c40d0a33910a, type: 2}
     - target: {fileID: 2094917822451533592, guid: 32d91bd96b04c45b296baf84a658a273, type: 3}
       propertyPath: m_Name
-      value: 10x10Cube
+      value: 10x10Cube Variant
       objectReference: {fileID: 0}
     - target: {fileID: 5679376713739445787, guid: 32d91bd96b04c45b296baf84a658a273, type: 3}
       propertyPath: m_RootOrder

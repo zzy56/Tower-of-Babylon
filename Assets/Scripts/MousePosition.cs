@@ -36,6 +36,7 @@ public class MousePosition : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Tab))
         {
+            
             SwitchCurrentTile();
         }
 
@@ -50,17 +51,22 @@ public class MousePosition : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0) && inBound)
         {
-            PlaceTile(tileManager.currentIndex);
+            PlaceBlock(tileManager.currentIndex);
             Debug.Log(canBuild);
+        }
+
+        if (Input.GetMouseButtonDown(2) && inBound)
+        {
+            EraseBlock();
         }
     }
 
-    void PlaceTile(int index)
+    void PlaceBlock(int index)
     {
         
         Vector3 pos = controlCube.transform.position;
         Vector3 gridPos = gdManager.GetGridPostion(pos);
-        List<Vector3> gridPosList = new List<Vector3>();
+        List<Vector3> gridPosList = new List<Vector3>(); //list of spaces that this block will take
         //Vector3 rotationVector = RotateClockWise(rotation, size);
         for (int x=0; x< size.x; x++)
         {
@@ -68,16 +74,19 @@ public class MousePosition : MonoBehaviour
             {
                 for (int z = 0; z < size.z; z++)
                 {
-                    gridPosList.Add(gridPos + Direction(rotation, new Vector3Int(x, y, z)));
+                    gridPosList.Add(gridPos + Direction(rotation, new Vector3Int(x, y, z))); //add each to list
+                    Debug.Log(gridPos);
+                    Debug.Log(gridPos + Direction(rotation, new Vector3Int(x, y, z)));
                 }
             }
         }
 
+
         canBuild = true;
-        foreach(Vector3 gPos in gridPosList)
+        foreach (Vector3 gPos in gridPosList) // check if any block is occupied
         {
 
-            if (gdManager.grid.GetValueOfCell(gPos) != 0)
+            if (gdManager.grid.isCellOccupied(gPos))
             {
                 canBuild = false;
                 Debug.Log("invaild position");
@@ -86,15 +95,20 @@ public class MousePosition : MonoBehaviour
 
         }
 
-        if(canBuild)
+        if (canBuild)
         {
-            Instantiate(currentInstance, pos, Quaternion.Euler(0, rotation*90, 0));
-            foreach(Vector3 gPos in gridPosList)
+            Instantiate(currentInstance, pos, Quaternion.Euler(0, rotation * 90, 0)); // build with given roation
+            foreach (Vector3 gPos in gridPosList)
             {
-                gdManager.grid.SetText(1, gPos);
+                gdManager.grid.SetText(true, gPos);
             }
         }
         Debug.Log(gdManager.dimension);
+    }
+
+    void EraseBlock()
+    {
+        //erase block
     }
 
     void SwitchCurrentTile()
@@ -103,7 +117,7 @@ public class MousePosition : MonoBehaviour
         currentTileType = tileManager.allTileTypes[tileManager.currentIndex];
         currentInstance = currentTileType.obj;
         size = currentTileType.dimension;
-        //controlCube.transform.localScale = currentTileType.dimension;
+        rotation = 0;
     }
 
     bool UpdateControlCube()
@@ -142,9 +156,9 @@ public class MousePosition : MonoBehaviour
             case 0:
                 return (new Vector3(x, y, z));
             case 1:
-                return (new Vector3(z, y, x));
+                return (new Vector3(z, y, -x));
             case 2:
-                return (new Vector3(x, y, -z));
+                return (new Vector3(-x, y, -z));
             case 3:
                 return (new Vector3(-z, y, x));
             default:
