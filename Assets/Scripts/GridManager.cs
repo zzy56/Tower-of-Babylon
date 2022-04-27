@@ -22,6 +22,7 @@ public class GridManager : MonoBehaviour
     void PlaceFloor()
     {
         GameObject floor = Instantiate(floorObj, GetWorldPosition(0, 0, 0, cellSize), Quaternion.identity);
+        floor.tag = "Floor";
         //floor.transform.localScale = new Vector3(dimension.x*cellSize, 1, dimension.z*cellSize);
     }
 

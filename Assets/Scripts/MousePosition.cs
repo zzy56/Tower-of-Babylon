@@ -55,8 +55,9 @@ public class MousePosition : MonoBehaviour
             Debug.Log(canBuild);
         }
 
-        if (Input.GetMouseButtonDown(2) && inBound)
+        if (Input.GetMouseButtonDown(1) && inBound)
         {
+            Debug.Log("erase");
             EraseBlock();
         }
     }
@@ -100,7 +101,7 @@ public class MousePosition : MonoBehaviour
             Instantiate(currentInstance, pos, Quaternion.Euler(0, rotation * 90, 0)); // build with given roation
             foreach (Vector3 gPos in gridPosList)
             {
-                gdManager.grid.SetText(true, gPos);
+                gdManager.grid.SetOccupied(true, gPos);
             }
         }
         Debug.Log(gdManager.dimension);
@@ -108,7 +109,20 @@ public class MousePosition : MonoBehaviour
 
     void EraseBlock()
     {
-        //erase block
+        RaycastHit mouseHit = MouseHit();
+
+        if (mouseHit.collider != null)
+        {
+            GameObject obj = mouseHit.collider.gameObject.transform.parent.gameObject;
+            if(obj.tag != "Floor")
+            {
+                Vector3 gridPos = gdManager.GetGridPostion(obj.transform.position);
+                gdManager.grid.SetOccupied(false, gridPos);
+                Destroy(obj);
+            }
+   
+        }
+
     }
 
     void SwitchCurrentTile()
@@ -123,10 +137,11 @@ public class MousePosition : MonoBehaviour
     bool UpdateControlCube()
     {
         //Debug.Log("This hit at " + hit.point);
-        Vector3 MouseHit = MouseHitWorldPosition();
-        if (MouseHit != new Vector3(0, 0, 0))
+        RaycastHit mouseHit = MouseHit();
+        Vector3 hitWorldPos = new Vector3(mouseHit.point.x, mouseHit.point.y, mouseHit.point.z);
+        if (hitWorldPos != new Vector3(0, 0, 0))
         {
-            Vector3 GridPos = gdManager.GetGridPostion(MouseHit);
+            Vector3 GridPos = gdManager.GetGridPostion(hitWorldPos);
             controlCube.transform.position = GridPos * gdManager.cellSize + new Vector3(gdManager.cellSize, gdManager.cellSize, gdManager.cellSize) / 2;
             return true;
         }
@@ -137,12 +152,12 @@ public class MousePosition : MonoBehaviour
 
     }
 
-    Vector3 MouseHitWorldPosition()
+    RaycastHit MouseHit()
     {
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         Physics.Raycast(ray, out hit);
-        return new Vector3(hit.point.x, hit.point.y, hit.point.z);
+        return hit;
     }
 
     Vector3 Direction(int direction, Vector3Int size)

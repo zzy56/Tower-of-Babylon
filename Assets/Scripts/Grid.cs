@@ -45,7 +45,7 @@ public class Grid
         return pos;
     }
 
-    public void SetText(bool value, Vector3 gridPosition)
+    public void SetOccupied(bool value, Vector3 gridPosition)
     {
         cells[Mathf.RoundToInt(gridPosition.x), Mathf.RoundToInt(gridPosition.y), Mathf.RoundToInt(gridPosition.z)].isOccupied = value;
         texts[Mathf.RoundToInt(gridPosition.x), Mathf.RoundToInt(gridPosition.y), Mathf.RoundToInt(gridPosition.z)].text = value.ToString();
