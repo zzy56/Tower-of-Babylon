@@ -51,6 +51,12 @@ public class Grid
         texts[Mathf.RoundToInt(gridPosition.x), Mathf.RoundToInt(gridPosition.y), Mathf.RoundToInt(gridPosition.z)].text = value.ToString();
     }
 
+    public void SetBlockType(BlockTypes blockType, Vector3 gridPosition)
+    {
+        cells[Mathf.RoundToInt(gridPosition.x), Mathf.RoundToInt(gridPosition.y), Mathf.RoundToInt(gridPosition.z)].blockType = blockType;
+        Debug.Log(cells[Mathf.RoundToInt(gridPosition.x), Mathf.RoundToInt(gridPosition.y), Mathf.RoundToInt(gridPosition.z)].blockType);
+    }
+
     public bool isCellOccupied(Vector3 gridPosition)
     {
         if(gridPosition.x < 0 || gridPosition.x > xSize-1 ||
@@ -65,10 +71,11 @@ public class Grid
 
 }
 
-enum BlockTypes
+public enum BlockTypes
 {
     Road,
-    Stucture
+    Stucture,
+    None
 }
 
 struct Block

@@ -202,6 +202,7 @@ MonoBehaviour:
   controlCube: {fileID: 220286348}
   currentTileType:
     TileName: 
+    blockType: 0
     mat: {fileID: 0}
     dimension: {x: 0, y: 0, z: 0}
     obj: {fileID: 0}
@@ -223,9 +224,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   allTileTypes:
   - TileName: 5x5Cube
+    blockType: 1
     mat: {fileID: 2100000, guid: 7fcb0affe9a424f0b9e7860313decc87, type: 2}
     dimension: {x: 1, y: 1, z: 1}
     obj: {fileID: 2094917822451533592, guid: 32d91bd96b04c45b296baf84a658a273, type: 3}
+  - TileName: Road
+    blockType: 0
+    mat: {fileID: 2100000, guid: 7fcb0affe9a424f0b9e7860313decc87, type: 2}
+    dimension: {x: 1, y: 1, z: 1}
+    obj: {fileID: 3164884611175961504, guid: b5d45b719c685461fa330585c205b419, type: 3}
   currentIndex: 0
 --- !u!1 &426335069
 GameObject:

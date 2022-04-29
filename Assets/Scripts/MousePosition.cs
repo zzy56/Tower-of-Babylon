@@ -44,7 +44,6 @@ public class MousePosition : MonoBehaviour
         {
             rotation += 1;
             rotation %= 4;
-            Debug.Log(rotation);
             //rotate obj by 90 degrees;
         }
 
@@ -52,12 +51,11 @@ public class MousePosition : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && inBound)
         {
             PlaceBlock(tileManager.currentIndex);
-            Debug.Log(canBuild);
         }
 
         if (Input.GetMouseButtonDown(1) && inBound)
         {
-            Debug.Log("erase");
+
             EraseBlock();
         }
     }
@@ -68,7 +66,6 @@ public class MousePosition : MonoBehaviour
         Vector3 pos = controlCube.transform.position;
         Vector3 gridPos = gdManager.GetGridPostion(pos);
         List<Vector3> gridPosList = new List<Vector3>(); //list of spaces that this block will take
-        //Vector3 rotationVector = RotateClockWise(rotation, size);
         for (int x=0; x< size.x; x++)
         {
             for (int y = 0; y < size.y; y++)
@@ -76,8 +73,6 @@ public class MousePosition : MonoBehaviour
                 for (int z = 0; z < size.z; z++)
                 {
                     gridPosList.Add(gridPos + Direction(rotation, new Vector3Int(x, y, z))); //add each to list
-                    Debug.Log(gridPos);
-                    Debug.Log(gridPos + Direction(rotation, new Vector3Int(x, y, z)));
                 }
             }
         }
@@ -102,9 +97,9 @@ public class MousePosition : MonoBehaviour
             foreach (Vector3 gPos in gridPosList)
             {
                 gdManager.grid.SetOccupied(true, gPos);
+                gdManager.grid.SetBlockType(currentTileType.blockType, gPos);
             }
         }
-        Debug.Log(gdManager.dimension);
     }
 
     void EraseBlock()
@@ -114,11 +109,12 @@ public class MousePosition : MonoBehaviour
         if (mouseHit.collider != null)
         {
             GameObject obj = mouseHit.collider.gameObject.transform.parent.gameObject;
-            if(obj.tag != "Floor")
+            if(obj.tag != "Floor" && obj != null)
             {
                 Vector3 gridPos = gdManager.GetGridPostion(obj.transform.position);
                 gdManager.grid.SetOccupied(false, gridPos);
                 Destroy(obj);
+                Debug.Log("erase");
             }
    
         }

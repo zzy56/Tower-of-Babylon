@@ -26,6 +26,7 @@ public class TileManager : MonoBehaviour
 public struct TileType
 {
     public string TileName;
+    public BlockTypes blockType;
     public Material mat;
     public Vector3Int dimension;
     public GameObject obj;
